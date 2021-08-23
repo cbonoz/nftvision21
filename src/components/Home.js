@@ -5,6 +5,7 @@ import {
   Marker,
   Popup,
   Polyline,
+  ZoomControl,
 } from "react-leaflet";
 import Fuse from "fuse.js";
 
@@ -53,21 +54,6 @@ export default function Home() {
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
 
-  const getPrice = async () => {
-    try {
-      const data = await getLastPrice();
-      console.log("get price", data);
-      const price = parseFloat(data);
-      if (price > 0) {
-        setActivePrice(price / 1000); // Price sent in milliEth.
-      } else {
-        alert("Price updating...");
-      }
-    } catch (e) {
-      console.error("error getting price", e);
-    }
-  };
-
   const addStation = (result) => {
     setResults([]);
     const newStations = [...stations, result];
@@ -76,7 +62,7 @@ export default function Home() {
     if (newStations.length > 1) {
       map.fitBounds(newStations.map(getLatLng));
     }
-    setQuery(null);
+    setQuery("");
   };
 
   const completePurchase = async () => {
@@ -115,7 +101,8 @@ export default function Home() {
     console.log("getPriceForRoute", positionList, start, end);
 
     try {
-      await requestPrice(positionList, start, end);
+      const price = await requestPrice(positionList, start, end);
+      setActivePrice(price);
     } catch (e) {
       console.error("error getting price", e);
     }
@@ -160,126 +147,127 @@ export default function Home() {
     );
   }
 
+  const getPrompt = () => {
+    console.log("stations", stations);
+    if (!stations || stations.length === 0) {
+      return "Where are you starting from?";
+    } else if (stations.length === 1) {
+      return "Where are you going?";
+    } else {
+      return "Add additional stop:";
+    }
+  };
+
   return (
     <div>
       <div className="columns">
-        <div className="column is-one-quarter p-4">
-          Search for a station:
-          <input
-            onChange={(e) => setQuery(e.target.value)}
-            value={inputValue}
-            className="input is-primary"
-          />
-          <br />
-          {results.slice(0, 5).map((result, i) => {
-            const { item } = result;
-            return (
-              <div
-                key={i}
-                onClick={() => addStation(item)}
-                className="result-box"
-              >
-                {i + 1}: {getStationName(item)}
-              </div>
-            );
-          })}
-          {stations.length > 0 && (
-            <div>
+        <div className="column is-full map-container">
+          <div className="box-overlay">
+            {/* <b>Search for a station:</b> */}
+            <b>{getPrompt()}</b>
+            <input
+              onChange={(e) => setQuery(e.target.value)}
+              value={inputValue}
+              className="input is-primary"
+            />
+            <br />
+            {results.slice(0, 5).map((result, i) => {
+              const { item } = result;
+              return (
+                <div
+                  key={i}
+                  onClick={() => addStation(item)}
+                  className="result-box"
+                >
+                  {i + 1}: {getStationName(item)}
+                </div>
+              );
+            })}
+            {stations.length > 0 && (
               <div>
                 <div>
-                  <br />
-                  <b>Selected Station:</b>
-                  <br />
-                  {station.X} {station.Y}
-                  <p>{station.STNNAME}</p>
-                  <p>{station.ADDRESS1}</p>
-                </div>
-                <hr />
-                {stations.length > 1 && (
                   <div>
-                    <p>
-                      <b>Route:</b>
-                    </p>
-                    {stations.map((s, i) => {
-                      return (
-                        <p key={i}>
-                          {i + 1}. {getStationName(s)}
-                          <br />
-                        </p>
-                      );
-                    })}
+                    <br />
+                    <b>Last Station:</b>
+                    <br />
+                    {station.X} {station.Y}
+                    <p>{station.STNNAME}</p>
+                    <p>{station.ADDRESS1}</p>
                   </div>
-                )}
-                <hr />
-                <div>
-                  <b>Purchase Ticket</b>
+                  <hr />
+                  {stations.length > 1 && (
+                    <div>
+                      <p>
+                        <b>Route:</b>
+                      </p>
+                      {stations.map((s, i) => {
+                        return (
+                          <p key={i}>
+                            {i + 1}. {getStationName(s)}
+                            <br />
+                          </p>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <hr />
+                  <div>
+                    <b>Purchase Ticket</b>
+                  </div>
+                  {!requesting && (
+                    <span>
+                      <button
+                        className="btn is-primary"
+                        onClick={getPriceForRoute}
+                        disabled={loading}
+                      >
+                        Request Price
+                      </button>
+                      &nbsp;
+                    </span>
+                  )}
+                  <button
+                    className="btn is-primary"
+                    onClick={clearStations}
+                    disabled={loading}
+                  >
+                    Clear Route
+                  </button>
                 </div>
-                {!requesting && (
-                  <span>
-                    <button
-                      className="btn is-primary"
-                      onClick={getPriceForRoute}
-                      disabled={loading}
-                    >
-                      Request Price
-                    </button>
-                    &nbsp;
-                  </span>
-                )}
-                <button
-                  className="btn is-primary"
-                  onClick={clearStations}
-                  disabled={loading}
-                >
-                  Clear Route
+              </div>
+            )}
+            {loading && <p>Transaction in progress...</p>}
+            {activePrice && (
+              <div>
+                <br />
+                <b>Price: {activePrice} eth</b>
+                <br />
+
+                <button className="btn is-primary" onClick={completePurchase}>
+                  Purchase fare for {activePrice} Eth
                 </button>
 
-                {requesting && (
-                  <span>
-                    <button
-                      className="btn is-primary"
-                      onClick={getPrice}
-                      disabled={loading}
-                    >
-                      Check price
-                    </button>
-                    &nbsp;
-                    <button
-                      className="btn is-primary"
-                      onClick={() => {
-                        setRequesting(false);
-                        setLoading(false);
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </span>
-                )}
+                <button
+                  className="btn is-primary"
+                  onClick={() => {
+                    setRequesting(false);
+                    setLoading(false);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
-            </div>
-          )}
-          {loading && <p>Transaction in progress...</p>}
-          {activePrice && (
-            <div>
-              <br />
-              <b>Price: {activePrice} eth</b>
-              <br />
-
-              <button className="btn is-primary" onClick={completePurchase}>
-                Purchase fare for {activePrice} Eth
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="column is-three-quarters p-4">
+            )}
+          </div>
           <MapContainer
             className="leaflet-container"
             center={position}
             zoom={13}
+            zoomControl={false}
             scrollWheelZoom={false}
             whenCreated={setMap}
           >
+            <ZoomControl position="bottomright" />
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

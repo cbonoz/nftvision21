@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/transport_chain.png";
+import logo from "../../assets/logo.png";
 import { getStationName } from "../../data/stations";
 import { APP_NAME } from "../../util/constants";
 

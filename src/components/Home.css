@@ -12,3 +12,19 @@
   width: 100%;
   height: 90vh;
 }
+.map-container {
+  position: relative;
+}
+
+.box-overlay {
+  z-index: 999;
+  border-radius: 5px;
+  position: absolute;
+  opacity: 0.9;
+  width: 400px;
+  height: auto;
+  padding: 20px;
+  background: white;
+  top: 20px;
+  left: 20px;
+}

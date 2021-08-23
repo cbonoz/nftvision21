@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src='./img/transport_chain.png' width=400>
+    <img src='./img/logo.png' width=400>
 </p>
 
 ## FarePass
@@ -10,7 +10,7 @@ Used several different blockchain technologies to make this project, going after
 
 ## Inspiration
 
-Covid caused a huge drop in public service usage last year. As services reopen, the use of physical tickets 
+Covid caused a huge drop in public service usage last year. As services reopen, the use of physical tickets
 
 The ability to sell or retrade physical printed tickets is also difficult in many cases, especially across networks. With FarePass, two parties can trade a ticket. The owner of the ticket verifies their identity and pass ownership at the time of redemption.
 
@@ -40,7 +40,6 @@ Upon completing the purchase, the user is redirected to a receipt/completion pag
 <!-- Demo: FarePass.netlify.com -->
 
 ## Challenges we ran into
-
 
 ### Running FarePass
 
