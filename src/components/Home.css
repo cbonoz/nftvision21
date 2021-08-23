@@ -1,0 +1,14 @@
+.result-box {
+  padding: 10px 20px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.result-box:hover {
+  background: lightgray;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 90vh;
+}
