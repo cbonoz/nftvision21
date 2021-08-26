@@ -8,18 +8,15 @@ import {
   ZoomControl,
 } from "react-leaflet";
 import Fuse from "fuse.js";
+import { Modal, Button } from "antd";
 
 import { getStationName, STATIONS } from "../data/stations";
 
 import "./Home.css";
-import {
-  purchaseContract,
-  requestPrice,
-  getLastPrice,
-  getHashUrl,
-} from "../util/helpers";
-import { EXAMPLE_PURCHASE } from "../util/receipt";
+import { purchaseContract, requestPrice, getHashUrl } from "../util/helpers";
 import Invoice from "./Invoice/Invoice";
+import { getWeb3 } from "../util/getWeb3";
+import { initSdk } from "../util/rarible";
 
 const options = {
   // isCaseSensitive: false,
@@ -53,6 +50,24 @@ export default function Home() {
   const [purchaseResult, setPurchaseResult] = useState(undefined);
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
+  const [accounts, setAccounts] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const login = async () => {
+    try {
+      const web3 = await getWeb3();
+      const accs = await web3.eth.getAccounts();
+      setAccounts(accs);
+
+      await initSdk(web3);
+    } catch (e) {
+      console.error("error getting web3 accounts", e);
+    }
+  };
+
+  useEffect(() => {
+    login();
+  }, []);
 
   const addStation = (result) => {
     setResults([]);
@@ -66,12 +81,15 @@ export default function Home() {
   };
 
   const completePurchase = async () => {
+    console.log("purchase");
     setLoading(true);
+    setError("");
     try {
-      const res = await purchaseContract(activePrice);
+      const res = await purchaseContract(accounts[0], activePrice);
       setPurchaseResult(res);
     } catch (e) {
-      console.error("error getting price", e);
+      console.error("error completing purchase", e);
+      setError(e.toString());
     }
     setLoading(false);
   };
@@ -90,18 +108,13 @@ export default function Home() {
       return;
     }
 
-    const positionList = stations.map(getLatLng).flat();
+    // const positionList = stations.map(getLatLng).flat();
 
     setLoading(true);
     setRequesting(true);
 
-    const start = "2021-02-07 20:00:00";
-    const end = "2021-04-07 20:00:00";
-
-    console.log("getPriceForRoute", positionList, start, end);
-
     try {
-      const price = await requestPrice(positionList, start, end);
+      const price = await requestPrice(stations.length);
       setActivePrice(price);
     } catch (e) {
       console.error("error getting price", e);
@@ -243,7 +256,10 @@ export default function Home() {
                 <b>Price: {activePrice} eth</b>
                 <br />
 
-                <button className="btn is-primary" onClick={completePurchase}>
+                <button
+                  className="btn is-primary"
+                  onClick={() => setShowModal(true)}
+                >
                   Purchase fare for {activePrice} Eth
                 </button>
 
@@ -259,6 +275,17 @@ export default function Home() {
               </div>
             )}
           </div>
+          <Modal
+            title="Complete purchase"
+            visible={showModal}
+            onOk={completePurchase}
+            onCancel={() => setShowModal(false)}
+          >
+            <p>Price: {activePrice} Eth</p>
+            <br />
+            <hr />
+            {error && <p className="error-text">{error}</p>}
+          </Modal>
           <MapContainer
             className="leaflet-container"
             center={position}

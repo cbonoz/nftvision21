@@ -6,7 +6,17 @@
 
 FarePass is a blockchain application that allows purchase of public transport passes based on volume present at different transport hubs and the number of passes previously purchased.
 
-Used several different blockchain technologies to make this project, going after:
+Pitch deck (WIP): https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
+
+## How we built it
+
+FarePass queries an index of train locations across the US allowing the user to create their own custom route for pass purchase.
+
+Upon completing the purchase, the user is redirected to a receipt/completion page linking to the transaction alongside the created pass document as a pdf. Currently supports the Kovan network only.
+
+- Metamask/web3 (contract interaction)
+- Circle API (USDC payments)
+- Rarible (Ticket NFT generation)
 
 ## Inspiration
 
@@ -27,37 +37,13 @@ The ability to sell or retrade physical printed tickets is also difficult in man
     Collecting payment for a given route using metamask.
 </p>
 
-## How we built it
 
-FarePass queries an index of train locations across the US allowing the user to create their own custom route for pass purchase.
+<!-- 
+Demo flow:
 
-Upon completing the purchase, the user is redirected to a receipt/completion page linking to the transaction alongside the created pass document as a pdf. Currently supports the Kovan network only.
+TODO:
+1. Add lazy mint of ticket at time of purchase.
+2. Enable Circle API credit card payment with callback for mint of NFT.
 
-- Metamask/web3 (contract interaction)
-- Circle API (USDC payments)
-- Rarible (Ticket NFT generation)
 
-<!-- Demo: FarePass.netlify.com -->
-
-## Challenges we ran into
-
-### Running FarePass
-
-FarePass requires the following env variables
-
-<pre>
-
-</pre>
-
-## What's next for FarePass
-
-- Support longer term passes
-- More historic data to improve the pricing model
-- Admin graphs/reporting of purchases made by users
-
-## Screenshots
-
-<!--
-### Useful links
-- https://betterprogramming.pub/how-to-connect-a-react-app-to-the-blockchain-fa9dbd0bbd69
 -->

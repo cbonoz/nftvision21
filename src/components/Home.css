@@ -8,6 +8,11 @@
   background: lightgray;
 }
 
+.error-text {
+  color: red;
+  font-style: italic;
+}
+
 .leaflet-container {
   width: 100%;
   height: 90vh;

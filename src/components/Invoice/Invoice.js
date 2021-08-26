@@ -4,6 +4,9 @@ import { getStationName } from "../../data/stations";
 import { APP_NAME } from "../../util/constants";
 
 import "./Invoice.css";
+
+const IMG_WIDTH = "200px";
+
 // github.com/sparksuite/simple-html-invoice-template
 function Invoice({ amount, url, ref, stations }) {
   return (
@@ -19,7 +22,7 @@ function Invoice({ amount, url, ref, stations }) {
                 <td class="title">
                   <img
                     src={logo}
-                    style={{ width: "100%", maxWidth: "400px" }}
+                    style={{ width: "100%", maxWidth: IMG_WIDTH }}
                   />
                 </td>
 
