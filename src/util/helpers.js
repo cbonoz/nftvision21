@@ -20,7 +20,7 @@ export const purchaseContract = async (
   )} to ${getStationName(stations[stations.length - 1])}`;
 
   const doc = JSON.stringify({
-    name: "FarePass NFT (qty: 1)",
+    name: "FarePass NFT",
     description,
     image: "ipfs://ipfs/" + URI,
   });
