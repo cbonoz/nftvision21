@@ -285,7 +285,7 @@ export default function Home({ setAccount }) {
             <RoutePreview stations={stations} price={activePrice} />
             <br />
             <hr />
-            {/* <PaymentForm /> */}
+            <PaymentForm />
             {error && <p className="error-text">{error}</p>}
           </Modal>
           <MapContainer

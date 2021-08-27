@@ -8,6 +8,10 @@
   background: lightgray;
 }
 
+.payment-form input {
+  margin: 5px;
+}
+
 .error-text {
   color: red;
   font-style: italic;
