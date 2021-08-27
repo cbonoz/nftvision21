@@ -1,4 +1,4 @@
-import { ROPSTEN_COLLECTION, TARGET_NETWORK } from "./constants";
+import { NFT_TYPE, ROPSTEN_COLLECTION, TARGET_NETWORK, URI } from "./constants";
 
 import { toAddress, toBigNumber } from "@rarible/types";
 import Web3 from "web3";
@@ -11,9 +11,7 @@ import { createRaribleSdk, RaribleSdk } from "@rarible/protocol-ethereum-sdk";
 // https://github.com/rarible/protocol-example
 
 let sdk;
-const URI = "/ipfs/QmWLsBu6nS4ovaHbGAXprD1qEssJu4r5taQfB74sCG51tp";
 
-const NFT_TYPE = "ERC721"; // "ERC1155"; // ERC721
 
 export const initSdk = (web3) => {
   sdk = createRaribleSdk(new Web3({ web3 }), TARGET_NETWORK);

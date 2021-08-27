@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import "bulma/css/bulma.css";
 import Home from "./components/Home";
 import { APP_DESC, APP_NAME } from "./util/constants";
 
+import "bulma/css/bulma.css";
+import "react-credit-cards/es/styles-compiled.css";
+
 function App() {
+  const [account, setAccount] = useState();
   // useEffect(() => {
   //   initContractInstance();
   // }, []);
@@ -34,10 +37,18 @@ function App() {
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
+
+          {account && (
+            <a className="navbar-item" href="/">
+              <span className="font-bold">
+                Logged in: <b>{account.substring(0, 6)}</b>
+              </span>
+            </a>
+          )}
         </div>
       </nav>
 
-      <Home />
+      <Home setAccount={setAccount} />
     </div>
   );
 }

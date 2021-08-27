@@ -27,7 +27,7 @@ function Invoice({ amount, url, ref, stations }) {
                 </td>
 
                 <td>
-                  Invoice #:{" "}
+                  NFT Voicher #:{" "}
                   {Date.now().toString(36) +
                     Math.random().toString(36).substring(2)}
                   <br />
@@ -96,7 +96,7 @@ function Invoice({ amount, url, ref, stations }) {
         <tr class="total">
           <td>
             <a href={url} target="_blank">
-              View transaction
+              {url}
             </a>
           </td>
 

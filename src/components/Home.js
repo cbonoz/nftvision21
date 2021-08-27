@@ -17,6 +17,8 @@ import { purchaseContract, requestPrice, getHashUrl } from "../util/helpers";
 import Invoice from "./Invoice/Invoice";
 import { getWeb3 } from "../util/getWeb3";
 import { initSdk } from "../util/rarible";
+import RoutePreview from "./RoutePreview";
+import PaymentForm from "./PaymentForm";
 
 const options = {
   // isCaseSensitive: false,
@@ -40,7 +42,7 @@ const getLatLng = (station) => [station.Y, station.X];
 
 const fuse = new Fuse(STATIONS, options);
 
-export default function Home() {
+export default function Home({ setAccount }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -48,6 +50,7 @@ export default function Home() {
   const [stations, setStations] = useState([]);
   const [requesting, setRequesting] = useState(false);
   const [purchaseResult, setPurchaseResult] = useState(undefined);
+  const [web3, setWeb3] = useState();
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
   const [accounts, setAccounts] = useState(null);
@@ -55,11 +58,12 @@ export default function Home() {
 
   const login = async () => {
     try {
-      const web3 = await getWeb3();
-      const accs = await web3.eth.getAccounts();
+      const myWeb3 = await getWeb3();
+      const accs = await myWeb3.eth.getAccounts();
       setAccounts(accs);
-
-      await initSdk(web3);
+      setAccount(accs[0]);
+      await initSdk(myWeb3);
+      setWeb3(myWeb3);
     } catch (e) {
       console.error("error getting web3 accounts", e);
     }
@@ -82,16 +86,23 @@ export default function Home() {
 
   const completePurchase = async () => {
     console.log("purchase");
+    if (!accounts) {
+      setError("Not currently logged in, please refresh the page.");
+      return;
+    }
+
     setLoading(true);
     setError("");
     try {
-      const res = await purchaseContract(accounts[0], activePrice);
+      const res = await purchaseContract(accounts[0], activePrice, web3);
       setPurchaseResult(res);
     } catch (e) {
       console.error("error completing purchase", e);
       setError(e.toString());
+    } finally {
+      setShowModal(false);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const clearStations = () => {
@@ -208,21 +219,8 @@ export default function Home() {
                     <p>{station.ADDRESS1}</p>
                   </div>
                   <hr />
-                  {stations.length > 1 && (
-                    <div>
-                      <p>
-                        <b>Route:</b>
-                      </p>
-                      {stations.map((s, i) => {
-                        return (
-                          <p key={i}>
-                            {i + 1}. {getStationName(s)}
-                            <br />
-                          </p>
-                        );
-                      })}
-                    </div>
-                  )}
+                  <RoutePreview stations={stations} />
+
                   <hr />
                   <div>
                     <b>Purchase Ticket</b>
@@ -252,10 +250,8 @@ export default function Home() {
             {loading && <p>Transaction in progress...</p>}
             {activePrice && (
               <div>
+                <RoutePreview stations={stations} price={activePrice} />
                 <br />
-                <b>Price: {activePrice} eth</b>
-                <br />
-
                 <button
                   className="btn is-primary"
                   onClick={() => setShowModal(true)}
@@ -281,9 +277,10 @@ export default function Home() {
             onOk={completePurchase}
             onCancel={() => setShowModal(false)}
           >
-            <p>Price: {activePrice} Eth</p>
+            <RoutePreview stations={stations} price={activePrice} />
             <br />
             <hr />
+            {/* <PaymentForm /> */}
             {error && <p className="error-text">{error}</p>}
           </Modal>
           <MapContainer
