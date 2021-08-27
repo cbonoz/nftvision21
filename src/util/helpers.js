@@ -1,9 +1,35 @@
 import { RARIBLE_BASE_URL, ROPSTEN_COLLECTION, URI } from "./constants";
 import { createLazyMint, generateTokenId, putLazyMint } from "./createLazyMint";
 import { lazyMint } from "./rarible";
+import nanoIpfs from "nano-ipfs-store";
+import { getStationName } from "../data/stations";
 
-export const purchaseContract = async (account, price, web3, ipfsHash) => {
+const ipfs = nanoIpfs.at("https://ipfs.infura.io:5001");
+
+export const purchaseContract = async (
+  stations,
+  account,
+  price,
+  web3,
+  ipfsHash
+) => {
   // Generate NFT based on completed USDC call.
+
+  const description = `Travel from ${getStationName(
+    stations[0]
+  )} to ${getStationName(stations[stations.length - 1])}`;
+
+  const doc = JSON.stringify({
+    name: "FarePass NFT (qty: 1)",
+    description,
+    image: "ipfs://ipfs/" + URI,
+  });
+
+  const cid = await ipfs.add(doc);
+
+  console.log("IPFS cid:", cid);
+
+  // console.log(await ipfs.cat(cid));
 
   const newTokenId = await generateTokenId(ROPSTEN_COLLECTION, account);
 
@@ -13,7 +39,7 @@ export const purchaseContract = async (account, price, web3, ipfsHash) => {
     web3.currentProvider,
     ROPSTEN_COLLECTION,
     account,
-    ipfsHash || URI
+    ipfsHash || cid
   );
 
   console.log("lazyMint", form);
@@ -21,24 +47,16 @@ export const purchaseContract = async (account, price, web3, ipfsHash) => {
   let res = {};
   res = await putLazyMint(form);
 
-  // TODO: pull from mint result.
-  let transactionHash = res.id;
-
   // res = await lazyMint(account, price);
-
-  console.log("result", res);
-
-  return {
-    ...res,
-    transactionHash,
-  };
+  console.log("result", res.id, res);
+  return { hash: res.id };
 };
 
 export const requestPrice = async (numStations) => {
   return numStations * (40 / 3200); // ~$40 * # stations
 };
 
-export const getHashUrl = async (id) => {
+export const getHashUrl = (hash) => {
   // TODO: Add link to purchased NFT on explorer.
-  return `${RARIBLE_BASE_URL}/token/${id}`;
+  return `${RARIBLE_BASE_URL}/token/${hash}`;
 };

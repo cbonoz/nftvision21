@@ -94,7 +94,12 @@ export default function Home({ setAccount }) {
     setLoading(true);
     setError("");
     try {
-      const res = await purchaseContract(accounts[0], activePrice, web3);
+      const res = await purchaseContract(
+        stations,
+        accounts[0],
+        activePrice,
+        web3
+      );
       setPurchaseResult(res);
     } catch (e) {
       console.error("error completing purchase", e);
@@ -151,7 +156,7 @@ export default function Home({ setAccount }) {
 
   const position = [station.Y || 42.36, station.X || -71.059];
 
-  const isCompleted = purchaseResult && purchaseResult.transactionHash;
+  const isCompleted = purchaseResult && purchaseResult.hash;
 
   if (isCompleted) {
     return (
@@ -161,7 +166,7 @@ export default function Home({ setAccount }) {
           <Invoice
             amount={activePrice}
             stations={stations}
-            url={getHashUrl(purchaseResult.transactionHash)}
+            url={getHashUrl(purchaseResult.hash)}
           />
           <button className="m-4" onClick={clearStations}>
             Done

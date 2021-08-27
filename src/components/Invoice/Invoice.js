@@ -96,7 +96,7 @@ function Invoice({ amount, url, ref, stations }) {
         <tr class="total">
           <td>
             <a href={url} target="_blank">
-              {url}
+              View NFT
             </a>
           </td>
 
