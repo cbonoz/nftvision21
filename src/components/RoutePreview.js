@@ -18,7 +18,14 @@ function RoutePreview({ stations, price }) {
           </p>
         );
       })}
-      {price && <p>Price: {price} Eth</p>}
+      {price && (
+        <p>
+          <br />
+          <b>Price: </b>
+          <br />
+          {price} Eth
+        </p>
+      )}
     </div>
   );
 }
