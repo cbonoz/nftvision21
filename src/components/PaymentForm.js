@@ -4,15 +4,8 @@ import Cards from "react-credit-cards";
 
 const FIELDS = ["Address", "Zip", "City", "State", "County", "Email"];
 
-const PaymentForm = () => {
+const PaymentForm = ({ data, setData, address }) => {
   const [step, setStep] = useState(0);
-  const [data, setData] = useState({
-    cvc: "",
-    expiry: "",
-    focus: "",
-    name: "",
-    number: "",
-  });
 
   const handleInputFocus = (e) => {
     setData({ ...data, focus: e.target.name });
@@ -38,19 +31,22 @@ const PaymentForm = () => {
             <br />
             <form>
               <Input
-                type="text"
-                name="name"
-                placeholder="Name"
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-              />
-              <Input
                 type="tel"
+                value={data.number}
                 name="number"
                 placeholder="Card Number"
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}
               />
+              <Input
+                type="text"
+                name="name"
+                value={data.name}
+                placeholder="Name"
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+              />
+
               <br />
 
               <div className="columns">
@@ -67,6 +63,7 @@ const PaymentForm = () => {
                   <Input
                     type="text"
                     name="expiry"
+                    value={data.expiry}
                     placeholder="Expiration"
                     onChange={handleInputChange}
                     onFocus={handleInputFocus}
@@ -90,14 +87,15 @@ const PaymentForm = () => {
       <h1>
         <b>Payment information:</b>
         <p>
-          You can pay with USDC using your credit card instead of a
-          cryptocurrency wallet! Enter your information below:
+          You can pay for your pass above with USDC using your credit card
+          instead of a cryptocurrency wallet. Enter information below:
         </p>
       </h1>
       <br />
       {getBody()}
       <br />
       <br />
+      {address && <p>Address: {address}</p>}
       {false && (
         <div>
           {step === 0 && <Button onClick={() => setStep(1)}>Next</Button>}

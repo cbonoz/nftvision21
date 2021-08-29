@@ -19,6 +19,7 @@ import { getWeb3 } from "../util/getWeb3";
 import { initSdk } from "../util/rarible";
 import RoutePreview from "./RoutePreview";
 import PaymentForm from "./PaymentForm";
+import { getPrice } from "../util/price";
 
 const options = {
   // isCaseSensitive: false,
@@ -55,6 +56,15 @@ export default function Home({ setAccount }) {
   const [map, setMap] = useState(null);
   const [accounts, setAccounts] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [ethPrice, setEthPrice] = useState();
+
+  const [data, setData] = useState({
+    cvc: "",
+    expiry: "",
+    focus: "",
+    name: "",
+    number: "4007400000000007", // sample
+  });
 
   const login = async () => {
     try {
@@ -68,6 +78,21 @@ export default function Home({ setAccount }) {
       console.error("error getting web3 accounts", e);
     }
   };
+
+  const getEthPrice = async () => {
+    try {
+      const p = await getPrice("ethereum");
+      setEthPrice(p);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (showModal) {
+      getEthPrice();
+    }
+  }, [showModal]);
 
   useEffect(() => {
     login();
@@ -283,9 +308,14 @@ export default function Home({ setAccount }) {
             onCancel={() => setShowModal(false)}
           >
             <RoutePreview stations={stations} price={activePrice} />
+            {ethPrice && activePrice && <p>{activePrice * ethPrice} USDC</p>}
             <br />
             <hr />
-            <PaymentForm />
+            <PaymentForm
+              data={data}
+              setData={setData}
+              address={accounts && accounts[0]}
+            />
             {error && <p className="error-text">{error}</p>}
           </Modal>
           <MapContainer
