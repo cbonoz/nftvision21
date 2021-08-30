@@ -37,14 +37,19 @@ The ability to sell or retrade physical printed tickets is also difficult in man
 - Generates a receipt representing your pass purchase.
 - NFT can be presented by the owner at time of redemption / use.
 
+### How to run
+`yarn && yarn start`
+
+For rarible interaction, requires browser with metamask connected to ropsten network. App should prompt for authorization.
+
 ### Screenshots
 
 <p align='center'>
-    <img src="./img/0.png" width=600/>
-    <img src="./img/1.png" width=600/>
-    <img src="./img/2.png" width=600/>
-    <img src="./img/3.png" width=600/>
-    <img src="./img/4.png" width=600/>
+    <img src="./img/0.png" width=800/>
+    <img src="./img/1.png" width=800/>
+    <img src="./img/2.png" width=800/>
+    <img src="./img/3.png" width=800/>
+    <img src="./img/4.png" width=800/>
 </p>
 
 ### Future work
