@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src='./img/logo.png' width=400>
+    <img src='./img/farepass_3_2.png' width=400>
 </p>
 
 ## FarePass
@@ -7,6 +7,8 @@
 FarePass is a blockchain application that allows purchase of public transport passes based on volume present at different transport hubs and the number of passes previously purchased.
 
 Pitch deck (WIP): https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
+
+Tested/demoed on ropsten network.
 
 ## How we built it
 
@@ -33,9 +35,9 @@ The ability to sell or retrade physical printed tickets is also difficult in man
 - Generates a receipt representing your pass purchase.
 - NFT can be presented by the owner at time of redemption / use.
 
+### Screenshots
+
 <p align='center'>
-    <img src="./img/map.png" width=600><br/>
-    Collecting payment for a given route using metamask.
 </p>
 
 ### Future work
