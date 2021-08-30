@@ -304,6 +304,7 @@ export default function Home({ setAccount }) {
           <Modal
             title="Complete purchase"
             visible={showModal}
+            width={1000}
             onOk={completePurchase}
             onCancel={() => setShowModal(false)}
           >

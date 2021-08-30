@@ -31,14 +31,21 @@ The ability to sell or retrade physical printed tickets is also difficult in man
 - Determines the real-time price for a given transport contract.
 - Creates a marketplace where tickets can be resold and traded.
 - Generates a receipt representing your pass purchase.
+- NFT can be presented by the owner at time of redemption / use.
 
 <p align='center'>
     <img src="./img/map.png" width=600><br/>
     Collecting payment for a given route using metamask.
 </p>
 
+### Future work
 
-<!-- 
+- Obtain partnerships with companies willing to offer fare in the form of transferable NFT's.
+- Launch mainnet
+- Expand to other tickets like conferences
+- Add QR cores that enable scanning at time of use
+
+<!--
 Demo flow:
 
 TODO:
