@@ -38,6 +38,10 @@ The ability to sell or retrade physical printed tickets is also difficult in man
 ### Screenshots
 
 <p align='center'>
+    <img src="./img/1.png" width=600/>
+    <img src="./img/2.png" width=600/>
+    <img src="./img/3.png" width=600/>
+    <img src="./img/4.png" width=600/>
 </p>
 
 ### Future work
