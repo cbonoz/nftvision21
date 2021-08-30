@@ -6,7 +6,7 @@
 
 FarePass is a blockchain application that allows purchase of public transport passes based on volume present at different transport hubs and the number of passes previously purchased.
 
-Pitch deck (WIP): https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
+Pitch deck: https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
 
 Note this project is still a prototype and would require additional work to go live.
 
