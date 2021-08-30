@@ -8,6 +8,8 @@ FarePass is a blockchain application that allows purchase of public transport pa
 
 Pitch deck (WIP): https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
 
+Note this project is still a prototype and would require additional work to go live.
+
 Tested/demoed on ropsten network.
 
 ## How we built it
