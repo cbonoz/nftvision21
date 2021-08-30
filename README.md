@@ -4,7 +4,7 @@
 
 ## FarePass
 
-FarePass is a blockchain application that allows purchase of public transport passes based on volume present at different transport hubs and the number of passes previously purchased.
+FarePass is a prototype blockchain application that allows the purchase of public transport passes as transferable and tradeable NFT's. FarePass leverages Circle APIs to enable payment for passes in USDC without requiring a wallet transfer. Once payment is accepted, a receipt and NFT are minted to represent the sale of the ticket or pass.
 
 Pitch deck: https://docs.google.com/presentation/d/1cGmqOf55ByTKShMHQLazUSxSiJTtTT5OTCnxrSor1CQ/edit?usp=sharing
 
@@ -38,6 +38,7 @@ The ability to sell or retrade physical printed tickets is also difficult in man
 - NFT can be presented by the owner at time of redemption / use.
 
 ### How to run
+
 `yarn && yarn start`
 
 For rarible interaction, requires browser with metamask connected to ropsten network. App should prompt for authorization.
