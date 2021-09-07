@@ -14,6 +14,8 @@ Tested/demoed on ropsten network.
 
 ## How we built it
 
+FarePass is a blockchain app that allows the purchase and transfer of transport passes as NFT's.
+
 FarePass queries an index of train locations across the US allowing the user to create their own custom route for pass purchase.
 
 Upon completing the purchase, the user is redirected to a receipt/completion page linking to the transaction alongside the created pass document as a pdf. Currently supports the Kovan network only.

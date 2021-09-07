@@ -13,4 +13,4 @@ export const URI = "QmahXDURdiRW4PFEfdmSSZj4qU6Lr7UYxe1yRPSoK4bTbn";
 
 export const NFT_TYPE = "ERC721"; // "ERC1155"; // ERC721
 
-export const RARIBLE_BASE_URL = `https://${TARGET_NETWORK}.rarible.com`
+export const RARIBLE_BASE_URL = `https://${TARGET_NETWORK}.rarible.com`;
