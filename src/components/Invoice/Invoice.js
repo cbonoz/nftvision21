@@ -74,9 +74,9 @@ function Invoice({ amount, url, ref, stations, imgData }) {
         </tr>
 
         <tr class="details">
-          <td>Ethereum</td>
+          <td>USDC</td>
 
-          <td>{amount} Eth</td>
+          <td>{amount} USDC</td>
         </tr>
 
         <tr class="heading">
@@ -102,7 +102,7 @@ function Invoice({ amount, url, ref, stations, imgData }) {
             </a>
           </td>
 
-          <td>Total: {amount} Eth</td>
+          <td>Total: {amount} USDC</td>
         </tr>
       </table>
     </div>

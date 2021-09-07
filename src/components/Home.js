@@ -198,7 +198,7 @@ export default function Home({ setAccount }) {
         {/* <div className="column is-one-quarter"></div> */}
         <div className="column">
           <Invoice
-            amount={activePrice}
+            amount={activePrice * (ethPrice || 1)}
             stations={stations}
             imgData={purchaseResult.imgData}
             url={getHashUrl(purchaseResult.hash)}
