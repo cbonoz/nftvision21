@@ -53,7 +53,8 @@ export const purchaseContract = async (
 };
 
 export const requestPrice = async (numStations) => {
-  return numStations * (40 / 3200); // ~$40 * # stations
+  const v = numStations * (40 / 3200);
+  return v.toFixed(3);
 };
 
 export const getHashUrl = (hash) => {

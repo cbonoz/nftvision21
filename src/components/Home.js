@@ -20,6 +20,7 @@ import { initSdk } from "../util/rarible";
 import RoutePreview from "./RoutePreview";
 import PaymentForm from "./PaymentForm";
 import { getPrice } from "../util/price";
+import { createQRImage } from "../util/qr";
 
 const options = {
   // isCaseSensitive: false,
@@ -125,6 +126,14 @@ export default function Home({ setAccount }) {
         activePrice,
         web3
       );
+      if (res.hash) {
+        try {
+          const imgData = await createQRImage(getHashUrl(res.hash));
+          res["imgData"] = imgData;
+        } catch (e) {
+          console.error(e);
+        }
+      }
       setPurchaseResult(res);
     } catch (e) {
       console.error("error completing purchase", e);
@@ -191,6 +200,7 @@ export default function Home({ setAccount }) {
           <Invoice
             amount={activePrice}
             stations={stations}
+            imgData={purchaseResult.imgData}
             url={getHashUrl(purchaseResult.hash)}
           />
           <button className="m-4" onClick={clearStations}>
@@ -282,14 +292,15 @@ export default function Home({ setAccount }) {
               <div>
                 <RoutePreview stations={stations} price={activePrice} />
                 <br />
-                <button
+                <Button
+                  type="primary"
                   className="btn is-primary"
                   onClick={() => setShowModal(true)}
                 >
                   Purchase fare for {activePrice} Eth
-                </button>
-
-                <button
+                </Button>
+                &nbsp;
+                <Button
                   className="btn is-primary"
                   onClick={() => {
                     setRequesting(false);
@@ -297,7 +308,7 @@ export default function Home({ setAccount }) {
                   }}
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             )}
           </div>

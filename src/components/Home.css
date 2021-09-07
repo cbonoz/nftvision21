@@ -8,6 +8,11 @@
   background: lightgray;
 }
 
+.img-invoice {
+  width: 80px;
+  margin-right: 10px;
+}
+
 .payment-form input {
   margin: 5px;
 }

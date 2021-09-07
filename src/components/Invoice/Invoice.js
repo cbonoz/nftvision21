@@ -8,7 +8,7 @@ import "./Invoice.css";
 const IMG_WIDTH = "200px";
 
 // github.com/sparksuite/simple-html-invoice-template
-function Invoice({ amount, url, ref, stations }) {
+function Invoice({ amount, url, ref, stations, imgData }) {
   return (
     <div class="invoice-box" ref={ref}>
       <p>
@@ -27,7 +27,7 @@ function Invoice({ amount, url, ref, stations }) {
                 </td>
 
                 <td>
-                  NFT Voicher #:{" "}
+                  NFT Voucher #:{" "}
                   {Date.now().toString(36) +
                     Math.random().toString(36).substring(2)}
                   <br />
@@ -95,6 +95,8 @@ function Invoice({ amount, url, ref, stations }) {
 
         <tr class="total">
           <td>
+            {imgData && <img className="img-invoice" src={imgData} />}
+
             <a href={url} target="_blank">
               View NFT
             </a>
